@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // 날째객체 생성하기
+      let d = new Date();
+      console.log(d);
+
+      // 현재날짜 객체 조작
+      // d.setDate(d.getDate() + 100);
+
+      // 과거의 6.25 발생일도 조작하기
+      //   d.setFullYear(1950);
+      //   d.setMonth(5); // 6월
+      //   d.setDate(25);
+
+      // 광복절
+      // d.setFullYear(1945);
+      // d.setMonth(7); // 8월
+      // d.setDate(15);
+
+      // 올해 2월은 몇일까지 있는지 조사하자
+      d.setFullYear(2023);
+      d.setMonth(2); // 3월
+      d.setDate(0); // 이전달의마지막일
+
+      // 날짜를 변역하기 위한 배열
+      let engArray = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+      let korArray = ["월", "화", "수", "목", "금", "토", "일"];
+
+      console.log("현재 연도는?", d.getFullYear());
+      console.log("현재 월는?", d.getMonth());
+      console.log("현재 일는?", d.getDate());
+      console.log("현재 연도는?", engArray[d.getDay()]);
+      console.log("현재 연도는?", korArray[d.getDay()]);
+    </script>
+  </head>
+  <body></body>
+</html>

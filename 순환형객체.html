@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      #wrapper {
+        width: 420px;
+        height: 110px;
+        background: rgb(88, 88, 180);
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+      }
+      #detall {
+        width: 420px;
+        height: 380px;
+        background-color: aquamarine;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+    </style>
+    <script>
+      let wrapper;
+      let detall;
+      let imgArray = [
+        "pexels1350197.jpg",
+        "pexels1655166.jpg",
+        "pexels235990.jpg",
+        "pexels273886.jpg",
+        "pexels386025.jpg",
+        "pexels462162.jpg",
+      ];
+      let boxArray = []; // 여러 개의 박스 객체를 받기 위한 배열
+      let flag = true;
+
+      // 베너 광고를 정의
+      class Box {
+        constructor(container, src, x, y, width, height, velX) {
+          this.container = container;
+          this.img = document.createElement("img");
+          this.src = src;
+          this.x = x;
+          this.y = y;
+          this.width = width;
+          this.height = height;
+          this.velX = velX;
+
+          this.img.src = this.src;
+
+          // 이미지에 마우스 오버를 하면 flag = false로 멈춤다
+          this.img.addEventListener("mouseover", function () {
+            flag = false;
+          });
+
+          // 이미지에 마우스 내리면 하면 flag = true로 멈춤다
+          this.img.addEventListener("mouseout", function () {
+            flag = true;
+          });
+
+          // 이미지에 클릭 이벤트 추가
+          this.img.addEventListener("click", function () {
+            // 상세 이미지 풀력
+            getDetall();
+          });
+
+          // 스타일
+          this.img.style.position = "absolute";
+          this.img.style.left = this.x + "px";
+          this.img.style.top = this.y + "px";
+          this.img.style.width = this.width + "px";
+          this.img.style.height = this.height + "px";
+
+          // 부모요소에 부착
+          this.container.appendChild(this.img);
+        }
+
+        // 이미지 상세처리
+        getDetall() {
+          detall.innerHTML = "";
+
+          let detallImage = document.createElement("img");
+          detallImage.src = this.src;
+          detallImage.style.width = 420 + "px";
+          detallImage.style.height = 380 + "px";
+
+          detall.appendChild(detallImage);
+        }
+
+        move() {
+          this.x += this.velX;
+          // 좌표의 한게점에 도달하면, 다시 이미지의 맨 끝으로 좌표를 수정
+          if (this.x < -(100 + 5)) {
+            // 이미지개수 * (너비 100+5)
+            this.x = (boxArray.length - 1) * (100 + 5);
+          }
+          this.img.style.left = this.x + "px";
+        }
+      }
+
+      function createBox() {
+        for (let i = 0; i < imgArray.length; i++) {
+          let box = new Box(
+            wrapper,
+            "../images/ocean/" + imgArray[i],
+            i * (100 + 5),
+            5,
+            100,
+            100,
+            -5
+          );
+          boxArray.push(box);
+
+          // 변경: 메서드 이름 변경
+          box.img.addEventListener("click", function () {
+            box.getDetall();
+          });
+        }
+      }
+
+      function gameLoop() {
+        if (flag) {
+          for (let i = 0; i < boxArray.length; i++) {
+            boxArray[i].move();
+          }
+        }
+      }
+
+      addEventListener("load", function () {
+        wrapper = document.getElementById("wrapper");
+        detall = document.getElementById("detall");
+
+        createBox(); // 광고 셀 생성
+
+        setInterval(gameLoop, 30);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="wrapper"></div>
+    <div id="detall"></div>
+  </body>
+</html>

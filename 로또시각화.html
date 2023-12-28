@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #wrapper {
+        width: 900px;
+        height: 150px;
+        margin: auto;
+        background: rgb(255, 255, 255);
+      }
+
+      #wrapper div {
+        width: 150px;
+        height: 150px;
+        border: 5px solid rgb(0, 0, 0);
+        box-sizing: border-box;
+        float: left;
+        font-weight: bold;
+        font-size: 90px;
+        color: rgb(0, 0, 0);
+        text-align: center;
+        line-height: 150px;
+      }
+    </style>
+    <script src="../lib/common.js"></script>
+    <script>
+      let count = 0;
+
+      let winArray;
+      let index = 0;
+      function printNum() {
+        let box = document.getElementsByName("box");
+
+        if (count > 0) {
+          console.log("printNum()호출", count);
+          count--;
+          box[index].innerText = winArray[index];
+          index++;
+        } else {
+          index = 0;
+        }
+      }
+      function executeByInterval() {
+        //for문이 빠르니까 한번에 나오게 느껴짐 그러니까 순차적으로 나오게끔 만들자
+        // 단지 1회만 실행?
+
+        //로또 번호 얻어오기
+
+        winArray = getLotto();
+
+        //카운트를 6으로 돌리면 실행되니까
+        count = 6;
+
+        // 기존 글씨는 초기화
+        let box = document.getElementsByName("box");
+        for (let i = 0; i < box.length; i++) {
+          box[i].innerText = "";
+        }
+      }
+      function execute() {
+        winArray = getLotto();
+        console.log(winArray);
+
+        let box = document.getElementsByName("box");
+        for (let i = 0; i < winArray.length; i++) {
+          box[i].innerText = winArray[i];
+        }
+      }
+
+      addEventListener("load", function () {
+        setInterval("printNum()", 500);
+      });
+    </script>
+  </head>
+  <body>
+    <button onclick="executeByInterval()">로또번호 추첨하기</button>
+    <div id="wrapper">
+      <div name="box"></div>
+      <div name="box"></div>
+      <div name="box"></div>
+      <div name="box"></div>
+      <div name="box"></div>
+      <div name="box"></div>
+    </div>
+  </body>
+</html>
